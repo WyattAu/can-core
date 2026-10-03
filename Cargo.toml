@@ -1,0 +1,54 @@
+[package]
+name = "can-core"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85"
+authors = ["Wyatt Au <wyatt_au@protonmail.com>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/WyattAu/can-core"
+homepage = "https://github.com/WyattAu/can-core"
+documentation = "https://docs.rs/can-core"
+description = "CAN 2.0 and CAN FD frame codec — identifier parsing, DLC handling, bit-timing calculation"
+readme = "README.md"
+keywords = ["can", "canfd", "socketcan", "automotive", "no-std"]
+categories = ["encoding", "parser-implementations", "no-std", "embedded"]
+exclude = [".github/", "fuzz/", "supply-chain/"]
+
+# Layer model: docs/layers.md in WyattAu/engineering-standards.
+# L0 — leaf: zero estate-internal dependencies, minimal curated externals.
+[package.metadata.layers]
+tier = "L0"
+
+# Zero runtime dependencies except thiserror for the typed error taxonomy
+# (thiserror 2.x is no_std by default). Everything else — endianness, bit
+# arithmetic, the DLC table — is hand-rolled over `core` + `alloc`.
+[dependencies]
+thiserror = { version = "2", default-features = false }
+
+[dev-dependencies]
+proptest = "1"
+criterion = "0.7"
+
+[[bench]]
+name = "frame"
+harness = false
+
+[lints.rust]
+missing_docs = "deny"
+unsafe_code = "deny"
+
+# Tier A decoder discipline: can-core parses frames that originate from CAN
+# buses and hostile replay captures. The codec is "never panics on input":
+# bounds are checked at every access and errors are typed and exhaustive.
+# The fuzz/dev targets lift these at the file level with justification; the
+# lib target never does.
+[lints.clippy]
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+indexing_slicing = "deny"
+undocumented_unsafe_blocks = "deny"
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
