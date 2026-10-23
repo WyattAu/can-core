@@ -1,24 +1,24 @@
 # can-core
 
-CAN 2.0 and CAN FD frame codec — identifier parsing, DLC handling, bit-timing
+CAN 2.0 and CAN FD frame codec: identifier parsing, DLC handling, bit-timing
 calculation, arbitration model.
 
-**Layer:** L0 — leaf · **Estate deps:** zero · **Runtime deps:** `thiserror`
+**Layer:** L0: leaf · **Estate deps:** zero · **Runtime deps:** `thiserror`
 only · `no_std` + `alloc` (CI exercises `thumbv7em-none-eabihf`).
 
 ## What's here
 
 | Module | Contents |
 |---|---|
-| `id` | [`CanId`](https://docs.rs/can-core/latest/can_core/enum.CanId.html) — 11-bit standard / 29-bit extended identifiers (`CanId::Standard(u11)` / `CanId::Extended(u29)`), range-validated constructors, SocketCAN id-word conversion |
-| `frame` | `CanFrame` — zero-copy borrowed view over a payload; `parse`/`to_bytes` in SocketCAN wire format (`struct can_frame` = 16 B, `struct canfd_frame` = 72 B); the full DLC ↔ length table (classic 0–8, FD `0..8,12,16,20,24,32,48,64`) |
-| `timing` | `BitTiming::calculate` — the standard Bosch bit-timing algorithm (prescaler search + segment split, sample-point targeting under Bosch segment limits) and SJA1000-style `btr()` register encoding |
-| `arbitration` | `dominates` — the wire-level arbitration model: lower ids win, standard beats extended on a shared 11-bit prefix (dominant IDE vs recessive SRR), CAN FD unchanged at arbitration phase |
-| `error` | `CanError` — the single typed, exhaustive error |
+| `id` | [`CanId`](https://docs.rs/can-core/latest/can_core/enum.CanId.html): 11-bit standard / 29-bit extended identifiers (`CanId::Standard(u11)` / `CanId::Extended(u29)`), range-validated constructors, SocketCAN id-word conversion |
+| `frame` | `CanFrame`: zero-copy borrowed view over a payload; `parse`/`to_bytes` in SocketCAN wire format (`struct can_frame` = 16 B, `struct canfd_frame` = 72 B); the full DLC ↔ length table (classic 0–8, FD `0..8,12,16,20,24,32,48,64`) |
+| `timing` | `BitTiming::calculate`: the standard Bosch bit-timing algorithm (prescaler search + segment split, sample-point targeting under Bosch segment limits) and SJA1000-style `btr()` register encoding |
+| `arbitration` | `dominates`: the wire-level arbitration model: lower ids win, standard beats extended on a shared 11-bit prefix (dominant IDE vs recessive SRR), CAN FD unchanged at arbitration phase |
+| `error` | `CanError`: the single typed, exhaustive error |
 
 ## Guarantees
 
-- **Total parser**: `CanFrame::parse` never panics — bounds checked at every
+- **Total parser**: `CanFrame::parse` never panics: bounds checked at every
   access, exhaustive typed errors, deny-level lints
   (`unwrap_used`/`expect_used`/`panic`/`indexing_slicing`) on the lib target,
   a cargo-fuzz target (`frame_parse`), 30 s CI fuzz smoke, miri over the
@@ -58,4 +58,4 @@ parser.
 
 ## License
 
-MIT OR Apache-2.0 — see LICENSE-MIT and LICENSE-APACHE.
+MIT OR Apache-2.0: see LICENSE-MIT and LICENSE-APACHE.

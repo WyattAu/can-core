@@ -1,4 +1,4 @@
-# Security Policy — can-core
+# Security Policy: can-core
 
 ## Supported versions
 
@@ -29,7 +29,7 @@ guarantees safety of the *decode* regardless.
 | ID | Threat | Mitigation |
 |----|--------|------------|
 | T1 | Malformed/truncated frames drive the parser out of bounds or into a panic (remote crash on hostile bus capture) | Totality by construction: bounds checked at every access (`get()`-only access; `unwrap`/`expect`/`panic`/`indexing_slicing` denied at the lib target), exhaustive `CanError`, cargo-fuzz target `frame_parse`, 30 s CI smoke, miri over the suites |
-| T2 | Out-of-range identifiers silently truncated, hiding bus misconfiguration | Validating constructors reject (`InvalidIdLength`) — ids are never silently masked |
+| T2 | Out-of-range identifiers silently truncated, hiding bus misconfiguration | Validating constructors reject (`InvalidIdLength`): ids are never silently masked |
 | T3 | FD/classic confusion (BRS/ESI on classic, remote FD frames) corrupts controller state | Typed rejections (`FdBrsOnClassic`, `RemoteFrameWithData`); the wire formats are distinguished by exact buffer size |
 | T4 | Malicious dependency substitution in the build chain | cargo-deny (advisories/licenses/bans) and cargo-vet gates in CI; supply-chain audits committed |
 
@@ -37,5 +37,5 @@ guarantees safety of the *decode* regardless.
 
 `can-core` is a codec and model library: it performs no I/O, spawns no
 threads, and never executes attacker-controlled code. Memory-safety bugs
-would require an `unsafe` block — the crate contains none
+would require an `unsafe` block: the crate contains none
 (`unsafe_code = "deny"`).
