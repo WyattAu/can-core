@@ -1,4 +1,5 @@
 # can-core
+[![Estate integration](https://github.com/WyattAu/estate-integration/actions/workflows/ci.yml/badge.svg)](https://github.com/WyattAu/estate-integration/actions/workflows/ci.yml)
 
 CAN 2.0 and CAN FD frame codec: identifier parsing, DLC handling, bit-timing
 calculation, arbitration model.
