@@ -1,6 +1,6 @@
 [package]
 name = "can-core"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 rust-version = "1.85"
 authors = ["Wyatt Au <wyatt_au@protonmail.com>"]
@@ -8,7 +8,7 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/WyattAu/can-core"
 homepage = "https://github.com/WyattAu/can-core"
 documentation = "https://docs.rs/can-core"
-description = "CAN 2.0 and CAN FD frame codec — identifier parsing, DLC handling, bit-timing calculation"
+description = "CAN 2.0 and CAN FD frame codec: identifier parsing, DLC handling, bit-timing calculation"
 readme = "README.md"
 keywords = ["can", "canfd", "socketcan", "automotive", "no-std"]
 categories = ["encoding", "parser-implementations", "no-std", "embedded"]
